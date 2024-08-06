@@ -1,0 +1,342 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Abnormality Monitoring API",
+        "description": "A simple CRUD API for managing users and groups.",
+        "version": "1.0.0"
+    },
+    "tags": [{
+            "name": "Users",
+            "description": "User Master Data"
+        },
+        {
+            "name": "Shops",
+            "description": "Operations related to Shops"
+        },
+        {
+            "name": "Lines",
+            "description": "Operations related to Lines"
+        },
+        {
+            "name": "Shifts",
+            "description": "Operations related to Shifts"
+        },
+        {
+            "name": "Categories",
+            "description": "Operations related to Categories"
+        },
+        {
+            "name": "Departments",
+            "description": "Operations related to Departments"
+        },
+        {
+            "name": "Statuses",
+            "description": "Operations related to Statuses"
+        },
+        {
+            "name": "Problems",
+            "description": "Operations related to Problems"
+        }
+    ],
+    "paths": {
+        "/abnormality/users/get": {
+            "get": {
+                "tags": ["Users"],
+                "summary": "Get all users",
+                "description": "Returns a list of all users.",
+                "responses": {
+                    "200": {
+                        "description": "A list of users.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/abnormality/shops/get": {
+            "get": {
+                "tags": ["Shops"],
+                "summary": "Get all shops",
+                "description": "Returns a list of all shops.",
+                "responses": {
+                    "200": {
+                        "description": "A list of shops.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/abnormality/lines/get": {
+            "get": {
+                "tags": ["Lines"],
+                "summary": "Get all lines",
+                "description": "Returns a list of all lines.",
+                "responses": {
+                    "200": {
+                        "description": "A list of lines.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/abnormality/shifts/get": {
+            "get": {
+                "tags": ["Shifts"],
+                "summary": "Get all shifts",
+                "description": "Returns a list of all shifts.",
+                "responses": {
+                    "200": {
+                        "description": "A list of shifts.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/abnormality/categories/get": {
+            "get": {
+                "tags": ["Categories"],
+                "summary": "Get all categories",
+                "description": "Returns a list of all categories.",
+                "responses": {
+                    "200": {
+                        "description": "A list of categories.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/abnormality/departments/get": {
+            "get": {
+                "tags": ["Departments"],
+                "summary": "Get all departments",
+                "description": "Returns a list of all departments.",
+                "responses": {
+                    "200": {
+                        "description": "A list of departments.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/abnormality/statuses/get": {
+            "get": {
+                "tags": ["Statuses"],
+                "summary": "Get all statuses",
+                "description": "Returns a list of all statuses.",
+                "responses": {
+                    "200": {
+                        "description": "A list of statuses.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/abnormality/problems/get": {
+            "get": {
+                "tags": ["Problems"],
+                "summary": "Get all Problems",
+                "description": "Returns a list of all Problems.",
+                "responses": {
+                    "200": {
+                        "description": "A list of Problems.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/abnormality/problems/graph": {
+            "get": {
+                "tags": ["Problems"],
+                "summary": "Get all Problems Graph",
+                "parameters": [{
+                    "name": "yearMonth",
+                    "in": "path",
+                    "required": true,
+                    "description": "year month format",
+                    "schema": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2023-08-01T00:00:00Z"
+                    }
+                }, {
+                    "name": "groupBy",
+                    "in": "path",
+                    "required": true,
+                    "description": "department or shop",
+                    "schema": {
+                        "type": "string",
+                        "enum": ["department", "shop", "overall"],
+                        "default": "shop"
+                    }
+                }],
+                "description": "Returns a list of all Problems Graph.",
+                "responses": {
+                    "200": {
+                        "description": "A list of Problems Graph.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/abnormality/problems/add": {
+            "post": {
+                "tags": ["Problems"],
+                "summary": "Get all Problems Graph",
+                "parameters": [{
+                    "name": "yearMonth",
+                    "in": "path",
+                    "required": true,
+                    "description": "year month format",
+                    "schema": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2023-08-01T00:00:00Z"
+                    }
+                }, {
+                    "name": "groupBy",
+                    "in": "path",
+                    "required": true,
+                    "description": "department or shop",
+                    "schema": {
+                        "type": "string",
+                        "enum": ["department", "shop", "overall"],
+                        "default": "shop"
+                    }
+                }],
+                "description": "Returns a list of all Problems Graph.",
+                "responses": {
+                    "200": {
+                        "description": "A list of Problems Graph.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "User": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "username": {
+                        "type": "string",
+                        "example": "john_doe"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "john@example.com"
+                    }
+                }
+            },
+            "UserInput": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "Fajar Tri Cahyono"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "fajar@mail.com"
+                    },
+                    "noreg": {
+                        "type": "string",
+                        "example": "123456789"
+                    },
+                    "password": {
+                        "type": "string",
+                        "example": "password"
+                    }
+                },
+                "required": ["name", "email", "noreg", "password"]
+            }
+        }
+    }
+}
