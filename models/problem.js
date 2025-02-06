@@ -39,7 +39,7 @@ class Problem {
                 "tb_m_categories.id"
             )
             .rowNumber("no", function () {
-                this.orderBy(`${tableName}.id`);
+                this.orderBy(`${tableName}.problem_date`);
             })
             .select(
                 `${tableName}.*`,
