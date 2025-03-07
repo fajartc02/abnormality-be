@@ -10,7 +10,16 @@ module.exports = {
     getAllProblems: async (req, res) => {
         try {
             req.query.yearMonth = req.query.yearMonth || moment().format("YYYY-MM");
-
+            // if (req.query.filter) {
+            //     delete req.query.filter.date
+            //     for (const key in req.query.filter) {
+            //         const element = req.query.filter[key];
+            //         if (element == 'null' || !element) continue
+            //         req.query[key] = element
+            //     }
+            //     delete req.query.filter
+            // }
+            console.log(req.query)
             const problems = await Problem.getAll(req.query);
 
             responseStatus.common(res, problems);

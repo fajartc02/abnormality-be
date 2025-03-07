@@ -19,12 +19,10 @@ async function loadSchema() {
               table.increments();
               for (let j = 0; j < tables[i].columns.length; j++) {
                 containerColScript.push(
-                  `table.${tables[i].columns[j].type}('${
-                    tables[i].columns[j].name
-                  }')${
-                    tables[i].columns[j].constraints
-                      ? tables[i].columns[j].constraints
-                      : ""
+                  `table.${tables[i].columns[j].type}('${tables[i].columns[j].name
+                  }')${tables[i].columns[j].constraints
+                    ? tables[i].columns[j].constraints
+                    : ""
                   };`
                 );
               }
@@ -44,7 +42,7 @@ async function loadSchema() {
               console.log(err);
             });
         } else {
-          console.log(`${tables[i].name} EXISTS`);
+          console.log(`${tables[i].name} Already Exists`);
         }
       })
       .catch((err) => {

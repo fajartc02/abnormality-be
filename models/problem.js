@@ -14,8 +14,18 @@ class Problem {
         pageSize = null,
         yearMonth,
         categoryId = null,
+        filter = null
     }) {
         let query = {};
+        if (filter) {
+            delete filter.date
+            for (const key in filter) {
+                const element = filter[key];
+                if (element == 'null' || !element) continue
+                query[key] = element
+            }
+        }
+
         const startOfMonth = moment(yearMonth)
             .startOf("month")
             .format("YYYY-MM-DD");
