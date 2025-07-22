@@ -19,8 +19,8 @@ module.exports = {
             //     }
             //     delete req.query.filter
             // }
-            console.log(req.query)
-            const problems = await Problem.getAll(req.query);
+            console.log(req.query, 'query')
+            const problems = await Problem.getAllWithPagination(req.query);
 
             responseStatus.common(res, problems);
         } catch (error) {

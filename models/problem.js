@@ -9,6 +9,74 @@ class Problem {
         this.columns = columns;
     }
 
+    static async getAllWithPagination({
+        // page = 1,
+        // pageSize = 5,
+        yearMonth,
+        categoryId = null,
+        filter = null,
+    }) {
+        let query = {};
+        const pageSize = filter ? filter.pageSize : pageSize
+        const page = filter ? filter.page : page
+        if (filter) {
+            delete filter.date
+            delete filter.pageSize
+            delete filter.page
+            for (const key in filter) {
+                const element = filter[key];
+                if (element == 'null' || !element) continue
+                query[key] = element
+            }
+        }
+
+        const startOfMonth = moment(yearMonth)
+            .startOf("month")
+            .format("YYYY-MM-DD");
+        const endOfMonth = moment(yearMonth).endOf("month").format("YYYY-MM-DD");
+
+        categoryId ? (query.category_id = categoryId) : null;
+        const [{ total }] = await db(tableName)
+            .whereBetween("problem_date", [startOfMonth, endOfMonth])
+            .andWhere(query)
+            .count(`${tableName}.id as total`);
+
+        const totalItems = parseInt(total, 10);
+        const totalPages = Math.ceil(totalItems / pageSize);
+
+        const data = await db(tableName)
+            .join("tb_m_lines", `${tableName}.line_id`, "=", "tb_m_lines.id")
+            .join("tb_m_shifts", `${tableName}.shift_id`, "=", "tb_m_shifts.id")
+            .join("tb_m_departments", `${tableName}.department_id`, "=", "tb_m_departments.id")
+            .join("tb_m_statuses", `${tableName}.status_id`, "=", "tb_m_statuses.id")
+            .join("tb_m_categories", `${tableName}.category_id`, "=", "tb_m_categories.id")
+            .rowNumber("no", function () {
+                this.orderBy(`${tableName}.problem_date`);
+            })
+            .select(
+                `${tableName}.*`,
+                db.raw(`CASE
+        WHEN EXTRACT(DAY FROM problem_date) BETWEEN 1 AND 7 THEN 'W1'
+        WHEN EXTRACT(DAY FROM problem_date) BETWEEN 8 AND 14 THEN 'W2'
+        WHEN EXTRACT(DAY FROM problem_date) BETWEEN 15 AND 21 THEN 'W3'
+        ELSE 'W4'
+      END AS week_id`),
+                `tb_m_lines.sname as line_nm`,
+                `tb_m_shifts.name as shift_nm`,
+                `tb_m_departments.sname as department_nm`,
+                `tb_m_statuses.name as status_nm`,
+                `tb_m_categories.name as category_nm`,
+                `tb_m_statuses.img as img`
+            )
+            .whereBetween("problem_date", [startOfMonth, endOfMonth])
+            .andWhere(query)
+            .limit(pageSize)
+            .offset((page - 1) * pageSize)
+            .orderBy("problem_date", "asc");
+
+        return { data, totalPages, totalItems, currentPage: page };
+    }
+
     static async getAll({
         page = null,
         pageSize = null,
@@ -33,6 +101,7 @@ class Problem {
 
         categoryId ? (query.category_id = categoryId) : null;
         return db(tableName)
+            // .count(`${tableName}.id as total`)
             .join("tb_m_lines", `${tableName}.line_id`, "=", "tb_m_lines.id")
             .join("tb_m_shifts", `${tableName}.shift_id`, "=", "tb_m_shifts.id")
             .join(
@@ -64,7 +133,7 @@ class Problem {
                 `tb_m_departments.sname as department_nm`,
                 `tb_m_statuses.name as status_nm`,
                 `tb_m_categories.name as category_nm`,
-                `tb_m_statuses.img as img`
+                `tb_m_statuses.img as img`,
             )
             .whereBetween("problem_date", [`${startOfMonth}`, `${endOfMonth}`])
             .where(query)
