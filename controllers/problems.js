@@ -255,7 +255,6 @@ module.exports = {
     addProblem: async (req, res) => {
         try {
             req.body.uuid = uuidv4();
-            console.log(req.body);
 
             const selectedLine = await Line.getById(req.body.line_id);
             req.body.shop_id = selectedLine.shop_id;
