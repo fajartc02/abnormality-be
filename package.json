@@ -5,7 +5,8 @@
     "scripts": {
         "start": "node ./bin/www",
         "dev": "nodemon ./bin/www",
-        "seed": "npx knex seed:run && yarn dev"
+        "seed": "npx knex seed:run && yarn dev",
+        "update-deploy": "git pull && yarn && pm2 stop abnormality && pm2 start abnormality"
     },
     "dependencies": {
         "bcryptjs": "^2.4.3",
