@@ -66,7 +66,7 @@ class Problem {
                 `tb_m_departments.sname as department_nm`,
                 `tb_m_statuses.name as status_nm`,
                 `tb_m_categories.name as category_nm`,
-                `tb_m_statuses.img as img`
+                `tb_m_statuses.img as img`,
             )
             .whereBetween("problem_date", [startOfMonth, endOfMonth])
             .andWhere(query)

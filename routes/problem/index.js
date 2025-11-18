@@ -9,13 +9,14 @@ const {
   updateProblem,
   removeProblem,
 } = require("../../controllers/problems");
+const upload = require("../../functions/uploads");
 
 router.get("/get", getAllProblems);
 router.get("/get/:id", getProblemById);
 router.get("/graph", getGraphProblem);
 
-router.post("/add", addProblem);
-router.put("/edit/:id", updateProblem);
+router.post("/add", upload.single("image"), addProblem);
+router.put("/edit/:id", upload.single("image"), updateProblem);
 router.delete("/delete/:id", removeProblem);
 
 module.exports = router;
