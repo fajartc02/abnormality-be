@@ -19,9 +19,13 @@ module.exports = {
             //     }
             //     delete req.query.filter
             // }
-            console.log(req.query, 'query')
             const problems = await Problem.getAllWithPagination(req.query);
-
+            problems.data = problems.data.map((problem) => {
+                if (problem.image) {
+                    problem.image = process.env.URL_IMG + problem.image
+                }
+                return problem
+            })
             responseStatus.common(res, problems);
         } catch (error) {
             console.log(error);
@@ -259,6 +263,8 @@ module.exports = {
             const selectedLine = await Line.getById(req.body.line_id);
             req.body.shop_id = selectedLine.shop_id;
 
+            if (req.file)
+                req.body.image = req.file.path;
             await Problem.create(req.body);
             responseStatus.common(res, "ok");
         } catch (error) {
@@ -269,6 +275,8 @@ module.exports = {
     updateProblem: async (req, res) => {
         try {
             console.log(req.body);
+            if (req.file)
+                req.body.image = req.file.path;
 
             await Problem.update(req.params.id, req.body);
             responseStatus.common(res, "ok");
