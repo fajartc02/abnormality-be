@@ -24,6 +24,9 @@ module.exports = {
                 if (problem.image) {
                     problem.image = process.env.URL_IMG + problem.image
                 }
+                if (problem.image_cm) {
+                    problem.image_cm = process.env.URL_IMG + problem.image_cm
+                }
                 return problem
             })
             responseStatus.common(res, problems);
@@ -263,8 +266,13 @@ module.exports = {
             const selectedLine = await Line.getById(req.body.line_id);
             req.body.shop_id = selectedLine.shop_id;
 
-            if (req.file)
-                req.body.image = req.file.path;
+            if (Object.keys(req.files).length !== 0) {
+                for (const key in req.files) {
+                    const element = req.files[key][0];
+                    req.body[key] = element.path;
+                }
+            }
+
             await Problem.create(req.body);
             responseStatus.common(res, "ok");
         } catch (error) {
@@ -274,9 +282,14 @@ module.exports = {
     },
     updateProblem: async (req, res) => {
         try {
-            console.log(req.body);
-            if (req.file)
-                req.body.image = req.file.path;
+
+            if (Object.keys(req.files).length !== 0) {
+                for (const key in req.files) {
+                    console.log(key);
+                    const element = req.files[key][0];
+                    req.body[key] = element.path;
+                }
+            }
 
             await Problem.update(req.params.id, req.body);
             responseStatus.common(res, "ok");
