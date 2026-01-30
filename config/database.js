@@ -1,14 +1,14 @@
 require("dotenv").config();
 const config = {
   DB_HOST: process.env.DB_HOST || "localhost",
-  DB_PORT: process.env.DB_PORT || 5432,
+  DB_PORT: process.env.DB_PORT || 5311,
   DB_USER: process.env.DB_USER || "postgres",
   DB_NAME: process.env.DB_NAME || "postgres",
   DB_PASSWORD: process.env.DB_PASSWORD || "postgres",
   DB_SSL: process.env.DB_SSL || false,
   DB_URL:
     process.env.DB_URL ||
-    "postgres://postgres:postgres@localhost:5432/postgres",
+    "postgres://postgres:postgres@localhost:5311/postgres",
 };
 
 const knex = require("knex")({
