@@ -10,4 +10,12 @@ module.exports = {
       responseStatus.serverError(res, error);
     }
   },
+  postUser: async (req, res) => {
+    try {
+      const user = await User.create(req.body);
+      responseStatus.common(res, user);
+    } catch (error) {
+      responseStatus.serverError(res, error);
+    }
+  },
 };
