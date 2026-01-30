@@ -15,6 +15,10 @@ class User {
     return db(tableName).where({ id }).first();
   }
 
+  static async getByNoreg(noreg) {
+    return db(tableName).where({ noreg }).first();
+  }
+
   static async create(payload) {
     return db(tableName).insert(payload).returning(this.columns);
   }
